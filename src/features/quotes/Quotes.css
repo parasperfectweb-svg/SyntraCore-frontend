@@ -1,0 +1,707 @@
+/* ── New Quote page — the multi-section quote builder form & cost
+   comparison cards. Nothing here is reused outside this feature.
+
+   Layout logic: sections are ordered by how dense they are, not by
+   forcing everything into equal-width thirds. Parties Information (11
+   fields) gets the full width; Cargo/Route (medium density) sit side
+   by side; Commercial (light) runs as a single row; Cost Builder gets
+   its own full-width section at the end.
+
+   Each section carries one accent color, used only for its numbered
+   badge and left border — a wayfinding device for scanning a long
+   form, not decoration. ─────────────────────────────────────────── */
+
+.qb-main {
+  overflow-y: auto;
+  padding: 28px 32px 60px;
+}
+
+
+
+.qb-page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+
+
+.qb-page-header h1 {
+  font-size: 21px;
+  font-weight: 700;
+  color: var(--sc-text-dark);
+  margin-bottom: 4px;
+}
+
+
+
+.qb-page-header p {
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+
+
+.qb-header-actions {
+  display: flex;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+
+
+.qb-btn {
+  font-size: 13px;
+  padding: 9px 18px;
+  border-radius: 7px;
+  transition: filter .15s ease, transform .15s ease;
+}
+
+
+
+.qb-btn:hover {
+  filter: brightness(0.97);
+  transform: translateY(-1px);
+}
+
+
+
+.qb-btn--ghost {
+  background: #fff;
+}
+
+
+
+.qb-btn--filled {
+  border: none;
+}
+
+
+/* ── Section card shell ──────────────────────────────────────────────
+   One shared card treatment; the accent color is set per-section via
+   a CSS variable rather than a family of near-duplicate classes. ──── */
+
+.qb-card {
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  border-left: 3px solid var(--qb-accent, var(--sc-blue));
+  border-radius: 10px;
+  padding: 22px 24px;
+  margin-bottom: 20px;
+}
+
+.qb-card--parties     { --qb-accent: #2563eb; }
+.qb-card--cargo       { --qb-accent: #c2410c; }
+.qb-card--route       { --qb-accent: #0891b2; }
+.qb-card--commercial  { --qb-accent: #7c3aed; }
+.qb-card--cost        { --qb-accent: #16a34a; }
+
+
+
+.qb-section-title {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--sc-text-dark);
+  padding-bottom: 14px;
+  margin-bottom: 20px;
+  border-bottom: 1px solid var(--sc-border);
+}
+
+
+
+.qb-section-num {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  font-size: 12px;
+  font-weight: 700;
+  color: #fff;
+  background: var(--qb-accent, var(--sc-blue));
+}
+
+
+/* ── Two sections side by side (Cargo + Route) ───────────────────── */
+
+.qb-pair-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  align-items: start;
+}
+
+.qb-pair-grid .qb-card {
+  margin-bottom: 0;
+  height: 100%;
+}
+
+
+
+.qb-subheading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: var(--qb-accent, var(--sc-blue));
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  margin-bottom: 14px;
+}
+
+
+
+.qb-subheading .optional {
+  font-size: 11px;
+  font-weight: 500;
+  text-transform: none;
+  letter-spacing: 0;
+  color: var(--sc-text-faint);
+}
+
+
+
+.qb-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+
+/* ── Split row: a 2- or 3-way block layout for grouping related fields
+   under their own subheading (used by Parties and Cargo). Stacked
+   subsequent rows get a dashed divider so tiers read as distinct
+   groups rather than one long list. ──────────────────────────────── */
+
+.qb-split-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.qb-split-row + .qb-split-row {
+  margin-top: 22px;
+  padding-top: 22px;
+  border-top: 1px dashed var(--sc-border);
+}
+
+.qb-split-row--triple {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+
+
+.qb-field {
+  margin-bottom: 14px;
+}
+
+
+
+.qb-field label {
+  font-size: 12px;
+  margin-bottom: 6px;
+}
+
+
+.qb-field input, .qb-field select, .qb-field textarea {
+  padding: 10px 12px;
+}
+
+
+.qb-field select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 34px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px 16px;
+}
+
+
+.qb-field textarea {
+  resize: none;
+  line-height: 1.4;
+}
+
+
+.qb-field input:focus, .qb-field select:focus, .qb-field textarea:focus {
+  outline: none;
+  border-color: var(--sc-blue);
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, .12);
+}
+
+
+.qb-field--suffix {
+  position: relative;
+}
+
+
+
+.qb-field--suffix .input-group {
+  flex-wrap: nowrap;
+}
+
+
+
+.qb-field--suffix .input-group-text {
+  font-size: 12px;
+  color: var(--sc-text-muted);
+  background: var(--sc-bg-panel);
+  border-left: 0;
+}
+
+
+
+.qb-field-currency .input-group > select {
+  flex: 0 0 84px;
+  padding-right: 28px;
+}
+
+
+.qb-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 20px;
+}
+
+.qb-two-col > .qb-field-block {
+  min-width: 0;
+}
+
+
+
+.qb-three-col {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px 16px;
+}
+
+
+
+.qb-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+
+
+.qb-incoterm-link {
+  display: inline-block;
+  margin-top: 4px;
+  font-size: 12.5px;
+  color: var(--sc-blue);
+  text-decoration: none;
+}
+
+.qb-incoterm-link:hover {
+  text-decoration: underline;
+}
+
+
+/* ── Shipment mode selector ───────────────────────────────────────── */
+
+.qb-mode-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+  margin-bottom: 22px;
+}
+
+
+.qb-mode-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 14px 8px;
+  text-align: center;
+  border: 1px solid var(--sc-border);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  user-select: none;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+
+.qb-mode-card svg path { transition: fill .15s ease; }
+
+
+.qb-mode-card .qb-mode-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+}
+
+
+
+.qb-mode-card .qb-mode-label {
+  font-size: 12px;
+  font-weight: 600;
+}
+
+
+
+.qb-mode-card.is-active {
+  background: var(--sc-blue);
+  border-color: var(--sc-blue);
+  color: #fff;
+}
+
+.qb-mode-card.is-active svg path { fill: #fff; }
+
+
+/* ── Container / shipment-type pills ──────────────────────────────── */
+
+.qb-pill-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+
+.qb-pill {
+  padding: 8px 16px;
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--sc-text-body);
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  border-radius: 33554400px;
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+
+.qb-pill.is-active {
+  background: var(--sc-blue);
+  color: #fff;
+  border-color: var(--sc-blue);
+}
+
+
+/* ── Cost Builder ──────────────────────────────────────────────────── */
+
+.qb-cost-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 18px;
+  align-items: start;
+}
+
+
+.qb-cost-card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  border: 1px solid var(--sc-border);
+  border-radius: 10px;
+  padding: 18px;
+}
+
+.qb-cost-card--best {
+  border-color: #bfdbfe;
+  background: #fbfdff;
+}
+
+.qb-cost-card--cheapest {
+  border-color: var(--sc-green-bd);
+  background: #fafffb;
+}
+
+
+.qb-cost-card-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+
+.qb-cost-card-head h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+  margin: 0;
+}
+
+
+
+.qb-cost-card--best .qb-cost-card-head h3 { color: var(--sc-blue); }
+.qb-cost-card--cheapest .qb-cost-card-head h3 { color: #16a34a; }
+
+
+
+.qb-transit-pill {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 10px;
+  border-radius: 33554400px;
+  white-space: nowrap;
+}
+
+
+.qb-cost-card--cheapest .qb-transit-pill {
+  background: var(--sc-green-bg);
+  color: var(--sc-green-tx);
+}
+
+
+.qb-cost-card--best .qb-transit-pill {
+  background: var(--sc-blue-light);
+  color: var(--sc-blue);
+}
+
+
+.qb-cost-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  color: var(--sc-text-body);
+  padding: 7px 0;
+}
+
+
+.qb-cost-row.total {
+  font-weight: 700;
+  color: var(--sc-text-dark);
+  border-top: 1px solid var(--sc-border);
+  margin-top: 6px;
+  padding-top: 12px;
+}
+
+
+.qb-cost-card--cheapest .qb-cost-row.total { color: #16a34a; }
+.qb-cost-card--best .qb-cost-row.total { color: var(--sc-blue); }
+
+
+.qb-margin-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  text-align: center;
+  gap: 4px;
+  margin: 16px 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--sc-border);
+}
+
+
+.qb-margin-row .k {
+  font-size: 11px;
+  color: var(--sc-text-muted);
+  margin-bottom: 3px;
+}
+
+
+.qb-margin-row .v {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: var(--sc-text-dark);
+}
+
+
+
+.qb-select-btn {
+  margin-top: auto;
+  width: 100%;
+  padding: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  border-radius: 7px;
+  background: #fff;
+  border: 1px solid var(--sc-border);
+  color: var(--sc-text-body);
+  transition: background .15s ease, color .15s ease, border-color .15s ease;
+}
+
+
+.qb-cost-card--best .qb-select-btn { border-color: var(--sc-blue); color: var(--sc-blue); }
+.qb-cost-card--cheapest .qb-select-btn { border-color: #16a34a; color: #16a34a; }
+
+
+.qb-select-btn.is-selected {
+  background: var(--sc-text-dark);
+  color: #fff;
+  border-color: var(--sc-text-dark);
+}
+
+
+.qb-summary {
+  border: 1px solid var(--sc-border);
+  border-radius: 10px;
+  padding: 18px;
+  background: var(--sc-bg-panel);
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+.qb-summary h3 {
+  font-size: 14.5px;
+  font-weight: 700;
+  margin-bottom: 16px;
+}
+
+
+
+.qb-summary-header,
+.qb-summary-row {
+  display: grid;
+  grid-template-columns: 1fr 90px 90px;
+  padding: 9px 0;
+  font-size: 12.5px;
+}
+
+
+
+.qb-summary-header {
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: .5px;
+  color: var(--sc-text-faint);
+  border-bottom: 1px solid var(--sc-border);
+}
+
+
+.qb-summary-row {
+  border-bottom: 1px solid var(--sc-border);
+}
+
+.qb-summary-row:last-of-type {
+  border-bottom: none;
+}
+
+
+.qb-summary-row .label { color: var(--sc-text-muted); }
+
+
+.qb-summary-row .best {
+  text-align: right;
+  font-weight: 700;
+  color: var(--sc-blue);
+}
+
+
+.qb-summary-row .cheap {
+  color: #16a34a;
+  font-weight: 700;
+  text-align: right;
+}
+
+
+
+.qb-generate-btn {
+  margin-top: auto;
+  padding-top: 13px;
+  padding-bottom: 13px;
+  font-size: 14px;
+  font-weight: 600;
+  border: none;
+  border-radius: 7px;
+  transition: filter .15s ease;
+}
+
+
+.qb-generate-btn:hover {
+  filter: brightness(1.08);
+}
+
+
+/* ── Responsive ────────────────────────────────────────────────────── */
+
+@media (max-width: 1180px) {
+
+  .qb-cost-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .qb-cost-grid .qb-summary {
+    grid-column: 1 / -1;
+  }
+}
+
+
+
+@media (max-width: 900px) {
+
+  .qb-main {
+    padding: 20px 16px 48px;
+  }
+
+  .qb-pair-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .qb-pair-grid .qb-card {
+    margin-bottom: 20px;
+  }
+
+  .qb-pair-grid .qb-card:last-child {
+    margin-bottom: 0;
+  }
+
+  .qb-split-row,
+  .qb-split-row--triple {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+
+  .qb-split-row + .qb-split-row {
+    margin-top: 18px;
+    padding-top: 18px;
+  }
+
+  .qb-two-col,
+  .qb-three-col {
+    grid-template-columns: 1fr;
+  }
+
+  .qb-cost-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .qb-cost-grid .qb-summary {
+    grid-column: auto;
+  }
+
+  .qb-page-header {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .qb-header-actions {
+    width: 100%;
+  }
+
+  .qb-header-actions .qb-btn {
+    flex: 1 1 auto;
+  }
+}
+
+
+
+@media (max-width: 520px) {
+
+  .qb-mode-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .qb-card {
+    padding: 18px 16px;
+  }
+}

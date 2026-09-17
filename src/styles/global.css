@@ -1,0 +1,965 @@
+/* ── Global, cross-feature chrome: sidebar theme, brand icon, avatar
+   circle, off-canvas menu button + scrim, badge color variants, and a
+   couple of small helpers Bootstrap doesn't ship. Imported once in
+   main.jsx and available to every page. ────────────────────────────── */
+
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+
+
+/* ── Global ─────────────────────────────────────────────────────────── */
+
+:root {
+  --auth-primary: #2f5bff;
+  --auth-primary-dark: #1d4ed8;
+  --auth-text: #111827;
+  --auth-muted: #6b7280;
+  --auth-border: #e5e7eb;
+  --auth-bg: #f5f7fb;
+}
+
+body {
+  font-family: "Inter", sans-serif;
+  color: var(--auth-text);
+}
+
+p {
+  color: var(--auth-muted);
+  font-size: 14px;
+}
+
+label {
+  color: #374151;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+input,
+button,
+select,
+textarea {
+  font-family: "Inter", sans-serif;
+}
+
+/* Start pagination */
+.pagination .page-item button {
+  width: 32px;
+  height: 32px;
+  background: transparent;
+}
+.pagination .page-item.active .page-link{
+  background: #0d6efd;
+}
+/* ── Auth ───────────────────────────────────────────────────────────── */
+
+.auth-page {
+  min-height: 100vh;
+  background: var(--auth-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 30px 15px;
+}
+
+.auth-wrapper {
+  width: 100%;
+  max-width: 1050px;
+  min-height: 620px;
+  background: #fff;
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.08);
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+
+/* ── Auth Left / Brand Section ─────────────────────────────────────── */
+
+.auth-brand-section {
+    background-image: url(/public/bg-login.png);
+    /* background: linear-gradient(145deg, #1d4ed8, #2563eb); */
+    color: #fff;
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+    overflow: hidden;
+    background-position: center;
+    background-size: cover;
+}
+
+.auth-brand-section::before {
+    content: "";
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    border-radius: 0;
+    background: rgb(0 0 0 / 33%);
+    top: 0;
+    right: 0;
+}
+
+.auth-brand-section::after {
+  content: "";
+  position: absolute;
+  width: 220px;
+  height: 220px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.05);
+  bottom: -100px;
+  left: -80px;
+}
+
+.auth-brand {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-logo {
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 21px;
+  font-weight: 700;
+  margin-bottom: 28px;
+}
+
+.auth-brand h1 {
+  color: #fff;
+  font-size: 30px;
+  font-weight: 700;
+  margin-bottom: 14px;
+  letter-spacing: -0.7px;
+}
+
+.auth-brand p {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 14px;
+  line-height: 1.7;
+  max-width: 330px;
+  margin: 0;
+}
+
+.auth-features {
+  position: relative;
+  z-index: 1;
+}
+
+.auth-feature {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-top: 18px;
+  font-size: 13px;
+  color: rgba(255, 255, 255, 0.9);
+}
+.auth-feature-icon {
+    width: 30px;
+    height: 30px;
+    border-radius: 8px;
+    background: #2f5bff91;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+/* ── Auth Right / Form Section ─────────────────────────────────────── */
+
+.auth-form-section {
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    background-image: url(/public/tag-bg.png);
+    background-position: bottom;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.auth-form-container {
+  width: 100%;
+  max-width: 430px;
+  margin: 0 auto;
+}
+
+.auth-form-header {
+  margin-bottom: 30px;
+}
+
+.auth-form-header h2 {
+  color: #0d6efd;
+  font-size: 27px;
+  font-weight: 700;
+  letter-spacing: -0.6px;
+  margin-bottom: 8px;
+}
+
+.auth-form-header p {
+  color: var(--auth-muted);
+  font-size: 14px;
+  margin: 0;
+}
+
+.auth-form-group {
+  margin-bottom: 20px;
+}
+
+
+/* ── Auth Input ────────────────────────────────────────────────────── */
+
+.auth-input-wrapper {
+  position: relative;
+}
+
+.auth-input {
+  width: 100%;
+  height: 40px;
+  border: 1px solid var(--auth-border);
+  border-radius: 5px !important;
+  background: #fff;
+  padding: 0 14px;
+  font-size: 14px;
+  color: var(--auth-text);
+  outline: none;
+  transition: 0.2s ease;
+  box-sizing: border-box;
+}
+
+.auth-input::placeholder {
+  color: #9ca3af;
+}
+
+.auth-input:focus {
+  border-color: var(--auth-primary);
+  box-shadow: none;
+}
+
+
+/* ── Password ──────────────────────────────────────────────────────── */
+
+.auth-password-input {
+  padding-right: 45px;
+}
+
+.auth-password-toggle {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  border: 0;
+  background: transparent;
+  padding: 4px;
+  cursor: pointer;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 10px;
+}
+
+.auth-password-toggle:hover {
+  color: #4b5563;
+}
+
+
+/* ── Auth Options ──────────────────────────────────────────────────── */
+
+.auth-options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 4px 0 22px;
+}
+
+.auth-link {
+  color: var(--auth-primary);
+  font-size: 12px;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-link:hover {
+  color: var(--auth-primary-dark);
+}
+
+
+/* ── Auth Alerts ───────────────────────────────────────────────────── */
+
+.auth-alert {
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #b91c1c;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+.auth-success {
+  padding: 11px 13px;
+  border-radius: 8px;
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
+  color: #15803d;
+  font-size: 12px;
+  margin-bottom: 20px;
+}
+
+
+/* ── Auth Switch / Terms ───────────────────────────────────────────── */
+
+.auth-switch {
+  text-align: center;
+  margin-top: 25px;
+  color: #6b7280;
+  font-size: 13px;
+}
+
+.auth-switch a {
+  color: var(--auth-primary);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.auth-switch a:hover {
+  color: var(--auth-primary-dark);
+}
+
+.auth-terms {
+  color: #9ca3af;
+  font-size: 11px;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 22px;
+}
+
+.auth-terms a {
+  color: #6b7280;
+  text-decoration: underline;
+}
+
+
+/* ── Register ──────────────────────────────────────────────────────── */
+
+.auth-register-section {
+  padding-top: 45px;
+  padding-bottom: 45px;
+}
+
+.auth-register-section .auth-form-header {
+  margin-bottom: 25px;
+}
+
+.auth-register-section .auth-form-group {
+  margin-bottom: 16px;
+}
+
+
+/* ── Auth Responsive ───────────────────────────────────────────────── */
+
+@media (max-width: 850px) {
+  .auth-wrapper {
+    grid-template-columns: 1fr;
+    max-width: 520px;
+    min-height: auto;
+  }
+
+  .auth-brand-section {
+    display: none;
+  }
+
+  .auth-form-section {
+    padding: 45px 35px;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-page {
+    padding: 15px;
+  }
+
+  .auth-wrapper {
+    border-radius: 15px;
+  }
+
+  .auth-form-section {
+    padding: 35px 22px;
+  }
+
+  .auth-form-header h2 {
+    font-size: 24px;
+  }
+}
+
+
+/* ── Sidebar (dark theme nav) ──────────────────────────────────────── */
+
+.sc-sidebar {
+  width: 240px;
+  background: #1B2D4F;
+  min-height: 100vh;
+  overflow: auto;
+}
+
+.sc-sidebar .nav-link {
+  color: #a7b0c2;
+  border-radius: .5rem;
+  font-size: .875rem;
+  padding: 8px 16px;
+}
+
+.sc-sidebar .nav-link:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, .06);
+}
+
+.sc-sidebar .nav-link.active {
+  color: #fff;
+  background: #2f5bff;
+}
+
+.sc-sidebar .nav-header {
+  color: #5c6883;
+  font-size: .7rem;
+  letter-spacing: .05em;
+  font-weight: 700;
+}
+
+.sc-sidebar .brand-icon {
+  width: 34px;
+  height: 34px;
+  background: linear-gradient(135deg, #2563eb, #22d3ee);
+}
+
+
+/* ── Topbar ─────────────────────────────────────────────────────────
+   A quiet, single-toned header (search + utility icons) with one
+   deliberate accent: the avatar's gradient ring, echoing the sidebar's
+   brand mark so the two ends of the shell read as one identity. ───── */
+
+.sc-topbar {
+  border-bottom: 1px solid #EEF0F3;
+  box-shadow: 0 1px 0 rgba(15, 23, 42, .02);
+}
+
+.sc-search-pill {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 40px;
+  border-radius: 20px;
+  background: #F3F4F6;
+  border: 1px solid transparent;
+  padding: 0 4px 0 14px;
+  overflow: hidden;
+  transition: background-color .15s ease, border-color .15s ease;
+}
+
+.sc-search-pill:focus-within {
+  background: #fff;
+  border-color: #bcd6f5;
+  box-shadow: 0 0 0 3px rgba(0, 120, 212, .1);
+}
+
+.sc-topbar-search-icon {
+  color: #8A93A3;
+  cursor: pointer;
+}
+
+.sc-search-pill:focus-within .sc-topbar-search-icon {
+  color: #0078D4;
+}
+
+.sc-search-pill-input {
+  flex: 1 1 auto;
+  min-width: 0;
+  height: 100%;
+  border: none;
+  outline: none;
+  background: transparent;
+  font-size: 14px;
+  padding: 0 8px;
+  color: #1E2939;
+}
+
+.sc-search-pill-input::placeholder {
+  color: #9AA3B2;
+}
+
+.sc-icon-btn {
+  width: 38px;
+  height: 38px;
+  border: none;
+  background: #F3F4F6;
+  color: #495566;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: background-color .15s ease, color .15s ease;
+}
+
+.sc-icon-btn:hover {
+  background: #E5F0FA;
+  color: #0078D4;
+}
+
+.sc-notif-dot {
+  box-shadow: 0 0 0 3px #fff;
+}
+
+.sc-topbar-divider {
+  width: 1px;
+  height: 24px;
+  background: #E5E7EB;
+  flex-shrink: 0;
+}
+
+.sc-avatar-ring {
+  display: flex;
+  padding: 2px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #2563eb, #22d3ee);
+}
+
+
+/* ── Small brand-colored helpers Bootstrap doesn't ship ────────────── */
+
+.text-purple {
+  color: var(--sc-purple) !important;
+}
+
+.bg-purple-subtle {
+  background-color: #ede9fe !important;
+}
+
+.avatar-circle {
+  width: 34px;
+  height: 34px;
+  font-size: .8rem;
+  font-weight: 700;
+}
+
+
+/* ── Email-type badge colors ───────────────────────────────────────── */
+.badge {
+  padding: 5px 12px;
+  font-size: 14px;
+  font-weight: 500;
+  white-space: nowrap;
+}
+
+
+.badge-blue   { background: #DBEAFE; color: #1D4ED8; }
+
+
+.badge-orange { background: #FFEDD4; color: #C2410C; }
+
+
+.badge-purple { background: #F3E8FF; color: #7C3AED; }
+
+
+.badge-green  { background: #DCFCE7; color: #16A34A; }
+
+
+.badge-pink   { background: #FCE7F3; color: #DB2777; }
+
+
+.badge-cyan   { background: #CFFAFE; color: #0891B2; }
+
+.badge-lavender {
+  background-color: #ede9fe;
+  color: #6d28d9;
+}
+
+.badge-yellow {
+  background-color: #fef9c3;
+  color: #a16207;
+}
+
+.badge-skyblue {
+  background-color: #e0f2fe;
+  color: #0369a1;
+}
+
+
+/* ── Utility: fixed 3-pane email layout ────────────────────────────── */
+
+.vh-app {
+  height: 100vh;
+}
+
+.border-dashed {
+  border-style: dashed !important;
+}
+
+
+/* ── Mobile Menu ───────────────────────────────────────────────────── */
+
+.sc-menu-fab {
+  position: fixed;
+  left: 20px;
+  top: 20px;
+  width: 44px;
+  height: 44px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .18);
+  z-index: 45;
+  transition: opacity .15s ease;
+}
+
+.sc-scrim {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, .45);
+  /* Bootstrap's .sticky-top (used by Topbar) sits at z-index 1020, so
+     the scrim/off-canvas panels it's meant to dim need to clear that —
+     40 let the Topbar render on top of them. */
+  z-index: 1030;
+}
+
+.sc-scrim.sc-show {
+  display: block !important;
+}
+
+.badge-mint {
+  background: #D1FAE5;
+  color: #059669;
+}
+
+.badge-yellow {
+  background: #FEF9C3;
+  color: #CA8A04;
+}
+
+.sc-scrim.sc-show~.sc-menu-fab,
+.sc-scrim.sc-show~.sc-ai-fab {
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .15s ease;
+}
+
+
+/* Boxed OTP Input Styling */
+.otp-box {
+  width: 50px;
+  height: 50px;
+  font-size: 1.25rem;
+  border-radius: 8px;
+  border: 1px solid #ced4da;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease-in-out;
+}
+
+.otp-box:focus {
+  border-color: #0d6efd;
+  box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+  outline: none;
+}
+
+
+/* ── Breakpoint: main sidebar becomes an off-canvas drawer below 1024px ─ */
+
+@media (max-width: 1023.98px) {
+  .sc-sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    /* Must clear the Topbar's .sticky-top (z-index 1020) or the header
+       renders over the sidebar's top portion — the brand logo/row was
+       getting hidden behind it. */
+    z-index: 1035;
+    transform: translateX(-100%);
+    transition: transform .22s ease;
+  }
+
+  /* Shadow only applies once the panel is actually on-screen — with an
+     unconditional shadow, its blur bleeds back into the viewport along
+     the left edge even while the panel itself is translated fully off
+     it (the shadow is anchored to the panel, not clipped by the screen
+     edge). */
+  .sc-sidebar.sc-open {
+    transform: translateX(0);
+    box-shadow: 8px 0 24px rgba(15, 23, 42, .18);
+  }
+
+  /* The sidebar toggle now lives in the Topbar header instead of the
+     floating fab — see .sc-topbar-menu-btn below. */
+  .sc-menu-fab {
+    display: none !important;
+  }
+
+  .sc-topbar-menu-btn {
+    display: flex !important;
+  }
+
+  /* Topbar search collapses to just the icon below 1024px; tapping it
+     expands the pill in place. Collapsed, it matches the circular
+     .sc-icon-btn treatment so every header control reads as one family
+     instead of two different shapes competing for attention. */
+  .sc-topbar-search {
+    max-width: 40px !important;
+    padding: 0 !important;
+    justify-content: center;
+    border-radius: 50% !important;
+    transition: max-width .18s ease, border-radius .18s ease;
+  }
+
+  .sc-topbar-search-icon {
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+  }
+
+  .sc-search-pill-input {
+    width: 0;
+    padding: 0;
+    opacity: 0;
+  }
+
+  .sc-topbar-search.sc-search-open {
+    max-width: 260px !important;
+    padding: 0 4px 0 14px !important;
+    border-radius: 20px !important;
+    background: #fff;
+    border-color: #bcd6f5;
+    box-shadow: 0 0 0 3px rgba(0, 120, 212, .1);
+  }
+
+  .sc-topbar-search.sc-search-open .sc-topbar-search-icon {
+    width: auto;
+    height: auto;
+    color: #0078D4;
+  }
+
+  .sc-topbar-search.sc-search-open .sc-search-pill-input {
+    width: auto;
+    opacity: 1;
+    padding: 0 8px;
+  }
+}
+
+
+/* ── Thin, consistent scrollbars app-wide ──────────────────────────── */
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #d1d5db transparent;
+}
+
+/* components/ui/Modal/Modal.css */
+
+.modal-custom {
+  z-index: 1060;
+}
+
+.modal-backdrop-custom {
+  z-index: 1050;
+  background-color: #111827;
+  opacity: 0.55;
+}
+
+.modal-custom .modal-content {
+  overflow: hidden;
+}
+
+.modal-custom .modal-header {
+  min-height: 64px;
+}
+
+.modal-custom .modal-footer {
+  background-color: #fff;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #d1d5db;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+.form-control{
+  font-size: 14px;
+  padding: 8px 12px;
+}
+select.form-select-sm{
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 12px;
+}
+.form-check-input:focus{
+  box-shadow: none;
+}
+
+/* components/ui/Modal/Modal.css
+   Self-contained — doesn't rely on Bootstrap's .modal/.modal-backdrop
+   styling at all, so it looks the same whether or not Bootstrap's own
+   modal CSS is loaded. */
+
+.ui-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(2px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  animation: ui-modal-fade 0.15s ease-out;
+}
+
+.ui-modal {
+  width: 100%;
+  max-width: 480px;
+  max-height: 85vh;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 20px 60px rgba(15, 23, 42, 0.18);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: ui-modal-pop 0.18s cubic-bezier(0.2, 0.9, 0.3, 1.1);
+}
+
+.ui-modal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 20px 24px;
+  border-bottom: 1px solid #eef0f3;
+  flex-shrink: 0;
+}
+
+.ui-modal-title {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 500;
+  color: #111827;
+}
+
+.ui-modal-close {
+  width: 32px;
+  height: 32px;
+  border: none;
+  border-radius: 50%;
+  background: transparent;
+  color: #9ca3af;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+.ui-modal-close:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.ui-modal-body {
+  padding: 20px 24px;
+  overflow-y: auto;
+  color: #374151;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+.ui-modal-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  padding: 14px 24px;
+  border-top: 1px solid #eef0f3;
+  background: #fafafa;
+  flex-shrink: 0;
+}
+
+@keyframes ui-modal-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes ui-modal-pop {
+  from { opacity: 0; transform: scale(0.96) translateY(4px); }
+  to { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.table input[type="checkbox"] {
+  width: 14px;
+  height: 14px;
+  accent-color: var(--sc-blue);
+  cursor: pointer;
+}
+
+
+.table td {
+  font-size: 14px;
+    border-color: #f3f3f3;
+}
+
+
+.table{
+  border-color: #F3F4F6;
+}
+
+
+.table th {   
+  border-color: #F3F4F6;
+  background: #F9FAFB;
+  font-size: 14px;
+}
+
+
+.sc-email-toolbar button.sc-toolbar-btn {
+    padding: 8px 13px;
+    border-radius: 4px;
+    border: none;
+    transition: .4s;
+}
+
+.sc-email-toolbar .sc-toolbar-actions {
+    gap: 10px;
+}
+
+.sc-email-toolbar button.sc-toolbar-btn:hover {
+    background: #2563eb;
+}
+
+.sc-email-toolbar button.sc-toolbar-btn:hover span,
+.sc-email-toolbar button.sc-toolbar-btn:hover svg {
+    color: #fff !important;
+}
+.sc-email-toolbar button.sc-toolbar-btn span,
+.sc-email-toolbar button.sc-toolbar-btn svg {
+    transition: .4s;
+}
+
+.option-text {
+    font-size: 10px;
+    color: #000 !important;
+}
+
+input.form-control{border-radius: 6px;}
+.form-control:focus{
+  box-shadow: none !important;
+}
+.shipment-vch.text-white svg path {
+    fill: #fff;
+}
+.form-select:focus {
+    box-shadow: none;
+}

@@ -1,0 +1,1221 @@
+/* ── Email Inbox page — favorites rail, inbox list, reading pane, and
+   the Copilot AI panel. Nothing here is reused outside this feature. ── */
+
+/* This feature is a bespoke, non-Bootstrap-form UI (plain divs/spans),
+   so — unlike every other page — it needs its own box-sizing/spacing
+   reset. Scoped to `.sc-email-inbox` (the page's own root element, not
+   the shared AppShell) so it never touches Bootstrap's own component
+   padding on Quotes/House Jobs. */
+.sc-email-inbox {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.sc-email-inbox {
+  height: 100%;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  background: var(--sc-white);
+}
+
+.sc-email-inbox h1, .sc-email-inbox h2, .sc-email-inbox h3, .sc-email-inbox h4, .sc-email-inbox p {
+  line-height: 1.4;
+}
+
+.sc-email-inbox ul {
+  list-style: none;
+}
+
+.unread-dot {
+  width: 8px;
+  height: 8px;
+}
+
+
+
+/* ── Copilot AI panel accent header ──────────────────────────────────── */
+
+.copilot-header {
+  background: linear-gradient(90deg, #f5f3ff, #eef2ff);
+}
+
+
+
+.cursor-pointer { cursor: pointer; }
+
+
+.font-inherit { font-family: inherit; }
+
+
+.icon-18 { width: 18px; height: 18px; }
+
+
+.icon-19 { width: 19px; height: 19px; }
+
+
+.icon-13 { width: 13px; height: 13px; }
+
+
+.icon-15 { width: 15px; height: 15px; }
+
+
+.icon-16 { width: 16px; height: 16px; }
+
+
+.icon-14 { width: 14px; height: 14px; }
+
+
+.icon-20 { width: 20px; height: 20px; }
+
+
+
+* {
+  font-family: "Inter", sans-serif;
+}
+
+
+
+
+
+
+.sc-mobile-bar {
+  padding: 12px 14px;
+  background: #fff;
+}
+
+
+
+.sc-mobile-bar button {
+  width: 34px;
+  height: 34px;
+}
+
+
+.sc-mobile-bar button:hover {
+  background: var(--sc-bg-panel);
+}
+
+
+
+.sc-mobile-bar .sc-mobile-title {
+  font-size: 15px;
+  text-overflow: ellipsis;
+}
+
+
+.sc-favorites {
+  width: 195px;
+  border-right: 1px solid var(--sc-border);
+  overflow-y: auto;
+}
+
+
+
+.sc-favorites-header {
+  padding: 20px 16px 14px;
+  font-size: 11px;
+  letter-spacing: 0.8px;
+}
+
+
+
+.sc-favorites-header svg {
+  color: #f5b301;
+}
+
+
+
+.sc-fav-item {
+  text-align: left;
+  padding: 4px 16px;
+  font-size: 12px;
+}
+
+
+
+.sc-fav-item .sc-count {
+  color: #6A7282;
+  font-size: 11px;
+}
+
+
+
+.sc-fav-item.sc-active {
+  background: #dce8ff;
+  color: var(--sc-blue);
+}
+
+
+
+
+.sc-fav-item.sc-active svg {
+  color: var(--sc-blue);
+}
+
+
+
+
+.sc-inbox-list-panel {
+  width: 320px;
+  border-right: 1px solid var(--sc-border);
+}
+
+
+
+.sc-inbox-header {
+  padding: 18px 18px 14px;
+}
+
+
+
+
+.sc-inbox-header h1 {
+  font-size: 18px;
+}
+
+
+
+.sc-inbox-tabs {
+  padding: 0 18px 12px;
+}
+
+
+
+
+.sc-inbox-tab {
+  font-size: 12px;
+  position: relative;
+  border-radius: 33554400px;
+  background: #F3F4F6;
+  padding: 3px 8px;
+}
+
+
+
+.sc-inbox-tab.sc-active {
+  color: #ffffff !important;
+  background: #0078D4;
+}
+
+
+
+/* ── Favorites "3-dot" menu — stand-in for the Favorites rail below
+   1200px. Hidden by default; shown via the media query above. ─────── */
+
+.sc-fav-kebab {
+  display: none;
+  position: relative;
+}
+
+.sc-fav-kebab-btn {
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: #6A7282;
+  background: transparent;
+  border: none;
+}
+
+.sc-fav-kebab-btn:hover {
+  background: var(--sc-bg-panel);
+}
+
+.sc-fav-menu {
+  min-width: 210px;
+  padding: 6px;
+  font-size: 12.5px;
+}
+
+.sc-fav-menu-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  padding: 7px 10px;
+  border-radius: 6px;
+  background: transparent;
+  border: none;
+  text-align: left;
+  color: #364153;
+}
+
+.sc-fav-menu-item:hover {
+  background: var(--sc-bg-panel);
+}
+
+.sc-fav-menu-item.sc-active {
+  background: #dce8ff;
+  color: var(--sc-blue);
+}
+
+.sc-fav-menu-item.sc-active svg {
+  color: var(--sc-blue);
+}
+
+.sc-fav-menu-item .sc-count {
+  margin-left: auto;
+  color: #6A7282;
+  font-size: 11px;
+}
+
+.sc-fav-menu-item.sc-active .sc-count {
+  color: var(--sc-blue);
+}
+
+
+
+.sc-fav-tabs-wrap {
+  padding: 14px 18px 12px;
+}
+
+
+
+.sc-fav-tabs-header {
+  font-size: 11px;
+  letter-spacing: 0.8px;
+  margin-bottom: 10px;
+}
+
+
+
+.sc-fav-tabs-header svg {
+  color: #f5b301;
+}
+
+
+.sc-fav-tabs {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 4px;
+  scrollbar-width: thin;
+}
+
+
+
+.sc-fav-tab {
+  padding: 7px 12px;
+  background: #F3F4F6;
+  font-size: 12.5px;
+}
+
+
+
+.sc-fav-tab .sc-count {
+  font-size: 11px;
+  margin-left: 1px;
+}
+
+
+.sc-fav-tab.sc-active {
+  background: #dce8ff;
+  color: var(--sc-blue);
+}
+
+
+.sc-fav-tab.sc-active svg {
+  color: var(--sc-blue);
+}
+
+
+
+.sc-fav-tab.sc-active .sc-count {
+  color: var(--sc-blue);
+}
+
+
+
+.sc-inbox-scroll {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+}
+
+
+.sc-email-row {
+  display: flex;
+  gap: 10px;
+  padding: 13px 18px;
+  border-bottom: 1px solid var(--sc-border);
+  cursor: pointer;
+}
+
+
+.sc-email-row:hover {
+  background: var(--sc-bg-panel);
+}
+
+
+
+.sc-email-row.sc-selected {
+  border-left: 2px solid #0078D4;
+  background: #DEECF9;
+  padding-left: 15px;
+}
+
+
+.sc-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 11px;
+}
+
+
+.sc-email-row-body {
+  flex: 1;
+  min-width: 0;
+}
+
+
+.sc-email-row-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 6px;
+}
+
+
+.sc-email-sender {
+  color: #101828;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.sc-email-time {
+  font-size: 11.5px;
+  color: var(--sc-text-faint);
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
+
+.sc-email-subject {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--sc-text-dark);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.sc-email-preview {
+  font-size: 12.5px;
+  color: var(--sc-text-muted);
+  margin-top: 2px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
+.sc-email-tag {
+  display: inline-block;
+  margin-top: 6px;
+  font-size: 10.5px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 5px;
+}
+
+
+.sc-tag-logistics {
+  padding: 0.75px 1.313px 2.75px 5.25px;
+  border-radius: 3.5px;
+  background: #EFF6FF;
+  color: #155DFC;
+}
+
+
+.sc-tag-urgent {
+  background: #fee2e2;
+  color: #dc2626;
+}
+
+
+.sc-unread-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #0078D4;
+  flex-shrink: 0;
+  margin-top: 4px;
+}
+
+
+.sc-email-view {
+  min-width: 0;
+}
+
+
+.sc-email-toolbar {
+  padding: 14px 24px;
+}
+
+
+.sc-toolbar-btn {
+  font-size: 13px;
+}
+
+
+.sc-email-content {
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior: contain;
+  padding: 22px 28px 0;
+  background: #F9FAFB;
+}
+
+
+.sc-email-title {
+  font-size: 18px;
+  font-weight: 500;
+  margin-bottom: 16px;
+}
+
+
+.sc-email-from-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 22px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid #E5E7EB;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+
+
+
+.sc-from-left {
+  display: flex;
+  gap: 12px;
+  min-width: 0;
+}
+
+
+
+.sc-from-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #0078D4;
+  color: #fff;
+  font-weight: 500;
+  font-size: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+
+.sc-from-name {
+  font-weight: 600;
+  font-size: 13.5px;
+}
+
+
+.sc-from-email {
+  font-size: 12.5px;
+  color: var(--sc-text-muted);
+  margin-left: 4px;
+  word-break: break-all;
+}
+
+
+.sc-from-to {
+  font-size: 12px;
+  color: var(--sc-text-muted);
+  margin-top: 3px;
+}
+
+
+.sc-from-time {
+  font-size: 12px;
+  color: var(--sc-text-faint);
+  white-space: nowrap;
+}
+
+
+
+.sc-email-body p {
+  font-size: 13.5px;
+  color: var(--sc-text-body);
+  margin-bottom: 14px;
+}
+
+
+
+.sc-email-body strong {
+  color: var(--sc-text-dark);
+}
+
+
+
+.sc-detail-box {
+  border-radius: 3.5px;
+  border: 1px solid #E5E7EB;
+  background: #F9FAFB;
+  padding: 18px 20px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 24px;
+  margin: 18px 0;
+}
+
+
+
+.sc-detail-row {
+  font-size: 13px;
+  color: var(--sc-text-body);
+}
+
+
+
+.sc-detail-row strong {
+  display: inline-block;
+  margin-left: 4px;
+  color: var(--sc-text-dark);
+  font-weight: 500;
+}
+
+
+
+/* ── Logistics panel (real /emails/logistics data) ───────────────────── */
+
+.sc-cargo-table-wrap {
+  overflow-x: auto;
+  border: 1px solid #E5E7EB;
+  border-radius: 3.5px;
+}
+
+.sc-cargo-table {
+  border-collapse: collapse;
+  font-size: 13px;
+}
+
+.sc-cargo-table th {
+  text-align: left;
+  font-weight: 600;
+  color: var(--sc-text-muted);
+  background: #F9FAFB;
+  padding: 8px 14px;
+  white-space: nowrap;
+  border-bottom: 1px solid #E5E7EB;
+}
+
+.sc-cargo-table td {
+  padding: 8px 14px;
+  color: var(--sc-text-body);
+  border-bottom: 1px solid #F3F4F6;
+  white-space: nowrap;
+}
+
+.sc-cargo-table tr:last-child td {
+  border-bottom: none;
+}
+
+
+
+.sc-signature {
+  margin-top: 6px;
+  margin-bottom: 22px;
+}
+
+
+
+.sc-signature .sc-name {
+  font-weight: 700;
+}
+
+
+
+.sc-signature p {
+  margin-bottom: 2px;
+  font-size: 13.5px;
+  color: var(--sc-text-body);
+}
+
+
+
+.sc-attachments-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
+  color: var(--sc-text-muted);
+  padding: 12px 0;
+  border-top: 1px solid var(--sc-border);
+}
+
+
+
+.sc-attachments-row svg {
+  width: 14px;
+  height: 14px;
+}
+
+
+
+.sc-reply-box {
+  margin-bottom: 20px;
+  border-radius: 3.5px;
+  border: 1px solid #E5E7EB;
+  background: #FFF;
+  min-height: 130px;
+  padding: 14px 16px;
+  position: relative;
+}
+
+
+
+.sc-reply-box .submit-msg {
+  position: absolute;
+  z-index: 1;
+  right: 8px;
+  bottom: 8px;
+  background: #2563eb;
+  color: #fff;
+  padding: 5px 10px;
+  font-size: 12px;
+  border-radius: 4px;
+  border: none;
+}
+
+
+
+.sc-reply-box textarea {
+  width: 100%;
+  height: 100px;
+  border: none;
+  outline: none;
+  resize: none;
+  font-family: inherit;
+  font-size: 13.5px;
+  color: var(--sc-text-body);
+}
+
+
+
+.sc-reply-box textarea::placeholder {
+  color: var(--sc-text-faint);
+}
+
+/* ── "Reply with Copilot" banner — sits below the message body, above
+   the reply box. Opens the Copilot side panel on click. ────────────── */
+
+.sc-copilot-banner {
+  margin: 16px 0 0;
+  padding: 12px 16px;
+  border: 1px solid #ede9fe;
+  border-radius: 8px;
+  background: linear-gradient(90deg, #f5f3ff, #eef2ff);
+  text-align: left;
+  transition: border-color .15s ease, box-shadow .15s ease;
+  display: none !important;
+}
+
+.sc-copilot-banner:hover {
+  border-color: #ddd6fe;
+  box-shadow: 0 2px 10px rgba(124, 58, 237, .08);
+}
+
+.sc-copilot-banner-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, .08);
+}
+
+.sc-copilot-banner-title {
+  font-size: 13px;
+  color: #1E2939;
+}
+
+.sc-copilot-banner-sub {
+  font-size: 12px;
+  color: var(--sc-text-muted);
+}
+
+.sc-copilot {
+    width: 300px;
+    border-left: 1px solid var(--sc-border);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior: contain;
+    padding: 10px;
+}
+
+
+.sc-copilot-header {
+    padding: 18px 18px 14px;
+    border-bottom: 1px solid #E5E7EB;
+    background: linear-gradient(90deg, #DEECF9 0%, #E1EEFA 10%, #E5F0FA 20%, #E8F2FB 30%, #EBF4FB 40%, #EEF6FC 50%, #F2F7FD 60%, #F5F9FD 70%, #F8FBFE 80%, #FCFDFE 90%, #FFF 100%);
+    color: #0078D4;
+    font-family: Inter;
+    font-size: 14px;
+    font-weight: 400;
+    border-radius: 4px;
+}
+
+
+.sc-copilot-header svg {
+  color: var(--sc-purple);
+}
+
+
+
+.sc-copilot-close {
+  margin-left: auto;
+  width: 26px;
+  height: 26px;
+  border-radius: 6px;
+  color: #0078D4;
+}
+
+
+.sc-copilot-close:hover {
+  background: rgba(0, 120, 212, .12);
+}
+
+.sc-copilot-card {
+    background: var(--sc-white);
+    /* margin: 0 14px 14px; */
+    border: 1px solid var(--sc-border);
+    border-radius: 4px;
+}
+
+
+
+.sc-copilot-card-head {
+  padding: 12px 14px;
+  font-size: 12.5px;
+}
+
+
+.sc-copilot-card-head .sc-left {
+  color: #1E2939;
+  font-size: 13px;
+  font-weight: 400;
+}
+
+
+.sc-copilot-card-head .sc-chev {
+  transition: transform .15s ease;
+}
+
+
+.sc-count-badge {
+  color: #dc2626;
+  font-size: 10.5px;
+  margin-left: 6px;
+  border-radius: 33554400px;
+  background: #FEF3C6;
+}
+
+
+.sc-data-rows {
+  padding: 0 14px 12px;
+}
+
+
+
+.sc-data-row {
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+
+.sc-data-row .sc-v {
+  text-align: right;
+}
+
+
+.sc-data-divider {
+  height: 1px;
+  background: var(--sc-border);
+  margin: 6px 0;
+}
+
+
+.sc-missing-list {
+  padding: 0 14px 14px;
+  gap: 5px;
+}
+
+
+.sc-missing-item {
+  border: 1px solid #FEF3C6;
+  background: #FFFBEB;
+  color: #364153;
+  font-size: 12px;
+  font-weight: 400;
+  padding: 8px 10px;
+}
+
+
+.sc-draft-body {
+  border: 1px solid #E5E7EB;
+  background: #F9FAFB;
+  padding: 4px 14px 14px;
+  margin: 0 14px 5px;
+  font-size: 12px;
+}
+
+
+.sc-draft-body p {
+  margin-bottom: 8px;
+}
+
+
+.sc-draft-body ol {
+  padding-left: 18px;
+  margin-bottom: 8px;
+}
+
+
+
+.sc-draft-body li {
+  margin-bottom: 2px;
+}
+
+
+.sc-copy-btn {
+  margin: 10px 0 14px;
+  padding: 4px 8px;
+  font-size: 12px;
+  border: 1px solid #E5E7EB !important;
+}
+
+
+
+.sc-copy-btn:hover {
+  background: var(--sc-bg-panel);
+}
+
+
+.sc-use-draft-btn {
+  background: var(--sc-blue) !important;
+  border-color: var(--sc-blue) !important;
+  color: #fff !important;
+}
+
+.sc-use-draft-btn:hover {
+  background: #1d4ed8 !important;
+}
+
+
+
+.sc-status-banner {
+  margin: 12px 14px 12px;
+  padding: 8px 12px;
+  background: var(--sc-green-bg);
+  border: 1px solid var(--sc-green-bd);
+  color: var(--sc-green-tx);
+  font-size: 12px;
+  border-radius: 3px;
+}
+
+
+
+.primary-btn {
+  padding: 12px;
+  background: var(--sc-blue) !important;
+  font-size: 13px;
+  border-radius: 4px;
+  border: none;
+}
+
+
+
+.primary-btn:hover {
+  background: #1d4ed8;
+}
+
+
+.form-control-sm, .form-select-sm, select, textarea.form-control-sm{
+    border-radius: 6px !important;
+}
+
+label.small{ font-size: 12px; }
+
+
+.min-h-38{  
+    min-height: 38px;
+}
+
+
+.text-xs{
+  font-size: 12px;
+}
+
+
+.text-primary, .text-success{
+  font-size: 14px;
+}
+
+
+.alert-primary{
+  border: 1px solid #DBEAFE;
+  background: #EFF6FF;
+  color: #1E40AF;
+  font-weight: 400;
+}
+
+
+
+
+.sc-ai-fab {
+  position: fixed;
+  right: 20px;
+  bottom: 80px;
+  width: 48px;
+  height: 48px;
+  background: #fff;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, .18);
+  z-index: 45;
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.sc-ai-fab:hover {
+  transform: translateY(-2px);
+}
+
+/* Tooltip: a small dark bubble above the FAB, with a matching arrow,
+   that fades and slides in on hover/keyboard focus. */
+.sc-ai-fab::after {
+  content: attr(data-tooltip);
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 12px);
+  background: #1E2939;
+  color: #fff;
+  font-size: 12px;
+  font-weight: 500;
+  white-space: nowrap;
+  padding: 7px 12px;
+  border-radius: 7px;
+  box-shadow: 0 6px 16px rgba(15, 23, 42, .22);
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.sc-ai-fab::before {
+  content: '';
+  position: absolute;
+  right: 16px;
+  bottom: calc(100% + 7px);
+  border: 5px solid transparent;
+  border-top-color: #1E2939;
+  opacity: 0;
+  transform: translateY(4px);
+  pointer-events: none;
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.sc-ai-fab:hover::after,
+.sc-ai-fab:hover::before,
+.sc-ai-fab:focus-visible::after,
+.sc-ai-fab:focus-visible::before {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+@media (max-width: 1498px) {
+
+  /* Copilot becomes an off-canvas panel triggered by the sparkle FAB
+     instead of a docked column — matches the small-screen reference.
+     Shadow moves to .sc-open only (same reasoning as the sidebar fix
+     in global.css): an unconditional shadow bleeds into the viewport
+     along the right edge even while the panel is translated off it. */
+    .sc-copilot-banner {
+      display: flex !important;
+    }
+
+  .sc-copilot {
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    width: 320px;
+    max-width: 88vw;
+    /* Same fix as the main sidebar in global.css: must clear the
+       Topbar's .sticky-top (z-index 1020), otherwise the header
+       renders over the panel's top — including its close (×) button,
+       which then looks like it's missing entirely. */
+    z-index: 1035;
+    background: #fff;
+    transform: translateX(100%);
+    transition: transform .22s ease;
+  }
+  .sc-copilot.sc-open {
+    transform: translateX(0);
+    box-shadow: -8px 0 24px rgba(15, 23, 42, .18);
+  }
+  .sc-copilot-close {
+    display: flex !important;
+  }
+
+  .sc-ai-fab {
+    display: none !important;
+  }
+}
+
+
+
+@media (max-width: 1199.98px) {
+
+  /* Favorites rail (the inbox's own "sidebar") collapses below 1200px;
+     it's replaced by the 3-dot menu next to the All/Unread tabs. */
+  .sc-favorites {
+    display: none !important;
+  }
+
+  .sc-fav-kebab {
+    display: flex !important;
+  }
+}
+
+
+
+@media (max-width: 1023px) {
+
+  .sc-inbox-list-panel {
+    width: 280px;
+  }
+}
+
+
+
+@media (max-width: 639px) {
+
+  .sc-mobile-bar {
+    display: flex !important;
+  }
+  .sc-inbox-list-panel,
+  .sc-email-view {
+    width: 100%;
+    border-right: none;
+    padding-top: 16px;
+  }
+
+  .sc-app[data-screen="list"] .sc-email-view {
+    display: none !important;
+  }
+  .sc-app[data-screen="detail"] .sc-inbox-list-panel {
+    display: none !important;
+  }
+  .sc-inbox-header {
+    display: none !important;
+    /* replaced by mobile bar */
+  }
+  .sc-email-toolbar {
+    padding: 10px 12px;
+    flex-wrap: wrap;
+  }
+  .sc-toolbar-actions {
+    gap: 12px;
+    overflow-x: auto;
+  }
+
+  .sc-toolbar-btn span,
+  .sc-toolbar-btn {
+    font-size: 12px;
+  }
+
+  .sc-toolbar-icons {
+    display: none !important;
+    /* keep mobile toolbar tidy; full actions remain via Reply/Forward */
+  }
+  .sc-email-content {
+    padding: 16px 14px 0;
+  }
+  .sc-email-title {
+    font-size: 16px;
+  }
+  .sc-detail-box {
+    grid-template-columns: 1fr;
+  }
+
+  .sc-email-from-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+
+
+  .sc-from-time {
+    margin-left: 44px;
+  }
+
+
+
+  .sc-back-to-list {
+    display: flex !important;
+  }
+}
+
+
+
+@media (max-width: 639px) {
+
+  .sc-mobile-bar {
+    display: flex !important;
+  }
+  .sc-menu-fab {
+    top: auto;
+    bottom: 20px;
+  }
+}
+
+
+textarea{resize: none;}
+
+
+
+.common-card {
+  background: #fff;
+  padding: 24px;
+}
+
+
+
+.sc-cursor-pointer { cursor: pointer; }
+
+
+.sc-font-inherit { font-family: inherit; }
+
+
+.gap-6px  { gap: 6px; }
+
+
+.gap-7px  { gap: 7px; }
+
+
+.gap-10px { gap: 10px; }
+
+
+.gap-12px { gap: 12px; }
+
+
+.gap-14px { gap: 14px; }
+
+
+.gap-18px { gap: 18px; }

@@ -1,0 +1,33 @@
+/* ── Design tokens: brand colors, shared CSS variables ──────────────── */
+:root {
+  --sc-navy: #1B2D4F;
+  --sc-navy-active: #1c2b4a;
+  --sc-blue: #2563eb;
+  --sc-purple: #7c3aed;
+  --bs-body-font-family: "Inter", sans-serif;
+  --bs-link-color: var(--sc-blue);
+  --bs-primary: var(--sc-blue);
+  --bs-primary-rgb: 37, 99, 235;
+}
+
+
+:root {
+  --sc-navy: #101a30;
+  --sc-navy-active: #1c2b4a;
+  --sc-blue: #2563eb;
+  --sc-blue-light: #eaf1ff;
+  --sc-text-dark: #1E2939;
+  --sc-text-body: #374151;
+  --sc-text-muted: #6b7280;
+  --sc-text-faint: #9ca3af;
+  --sc-border: #e5e7eb;
+  --sc-bg-panel: #f6f7f9;
+  --sc-white: #ffffff;
+  --sc-yellow-bg: #fef9e7;
+  --sc-yellow-bd: #fde68a;
+  --sc-yellow-tx: #92640a;
+  --sc-green-bg: #ecfdf3;
+  --sc-green-bd: #a7f3d0;
+  --sc-green-tx: #067647;
+  --sc-purple: #7c3aed;
+}
