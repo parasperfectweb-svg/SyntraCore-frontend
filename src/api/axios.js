@@ -9,16 +9,14 @@ import axios from 'axios';
 // Engine (see features/email-inbox/api/emailApiClient.js) — don't point
 // this one at the email service's ngrok URL, or the reverse.
 //
-// In dev, goes through the Vite proxy (vite.config.js, '/backend-api')
-// so the browser only ever talks to the Vite dev server — same-origin,
-// so no CORS preflight is ever sent, and the backend's own CORS config
-// doesn't matter for local dev. In a production build there's no
-// dev-server proxy, so this falls back to hitting the backend directly,
-// which DOES require that backend's CORS config to allow the deployed
-// frontend's origin.
-const BASE_URL = import.meta.env.DEV
-  ? '/backend-api'
-  : (import.meta.env.VITE_API_BASE_URL || 'https://pebble-showcase-subsonic.ngrok-free.dev');
+// Hits this ngrok URL directly, in both dev and production — no Vite
+// dev-server proxy in front of it. That means every request is
+// cross-origin, so it depends on the backend's own CORS config allowing
+// this frontend's origin (the backend team owns that, not this file).
+// Override with VITE_API_BASE_URL in .env if the ngrok tunnel URL
+// changes (free-tier ngrok URLs rotate on restart) or for a different
+// environment.
+const BASE_URL = import.meta.env.VITE_API_BASE_URL || 'https://pebble-showcase-subsonic.ngrok-free.dev';
 
 const ACCESS_TOKEN_KEY = 'syntracore_access_token';
 
