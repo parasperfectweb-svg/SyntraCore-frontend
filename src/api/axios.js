@@ -18,7 +18,7 @@ import axios from 'axios';
 // frontend's origin.
 const BASE_URL = import.meta.env.DEV
   ? '/backend-api'
-  : (import.meta.env.VITE_API_BASE_URL || '');
+  : (import.meta.env.VITE_API_BASE_URL || 'https://pebble-showcase-subsonic.ngrok-free.dev');
 
 const ACCESS_TOKEN_KEY = 'syntracore_access_token';
 
